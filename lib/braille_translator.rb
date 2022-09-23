@@ -5,7 +5,7 @@ class BrailleTranslator
     @alphabet = {'a' => ['0.', '..', '..'],
                 'b' => ['0.', '0.', '..'],
                 'c' => ['00', '..', '..'],
-                'd' => ['00', '0.', '..'],
+                'd' => ['00', '.0', '..'],
                 'e' => ['0.', '.0', '..'],
                 'f' => ['00', '0.', '..'],
                 'g' => ['00', '00', '..'],
@@ -31,4 +31,15 @@ class BrailleTranslator
                 ' ' => ['..', '..', '..']
     }
   end
+  
+  def read_and_write(message, destination)
+    text = File.open(message).read.downcase
+    File.open(destination, 'w') do |file| 
+      for index in 0..2 do
+        text.each_char { |chr| file.write(@alphabet[chr][index])}
+        file.write("\n")
+      end
+    end
+  end
+  
 end

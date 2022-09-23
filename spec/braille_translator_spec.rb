@@ -16,5 +16,17 @@ RSpec.describe BrailleTranslator do
       expect(braille_translator.alphabet['z']).to eq(['0.', '.0', '00'])
       expect(braille_translator.alphabet[' ']).to eq(['..', '..', '..'])
     end
-  end 
+  end
+  
+  context 'behavior' do
+    it "read_and_write reads input from one file and writes it to another." do
+      message = ('./data/message.txt')
+      destination = ('./data/braille.txt')
+      
+      braille_translator.read_and_write(message, destination)
+      
+      result = "0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...\n"
+      expect(File.open(destination).read).to eq(result)
+    end
+  end
 end 
