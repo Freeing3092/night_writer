@@ -1,29 +1,37 @@
-class ReaderWriter
-  attr_accessor :contents
+class NightWriter
+  attr_reader :contents, :user_input
   
-  user_input = ARGV
-  
-  file_to_translate = user_input[0]
-  file_path = "./data/#{file_to_translate}"
-  
-  if !File.exist?(file_path)
-    puts "The provided file does not exist" 
-  elsif user_input.count > 2
-    puts "Please provide only 2 files:"
-    puts "The file to be translated and the destination file."
-  elsif user_input.count < 2
-    puts "Please provide 2 files:"
-    puts "The file to be translated and the destination file"
+  # Store user input from command line.
+  @user_input = ARGV
+
+  # This method checks that exactly 2 arguments were provided.
+  def self.invalid_num_arguments?(user_input)
+    return false if user_input.count == 2
+    puts "\nPlease provide 2 files: \nThe file to be translated and the destination file."
+    true
   end
   
-  @contents = File.open(file_path).read if File.exist?(file_path)
-  
+  # This method outputs the translated file creation details.
   def self.repl_output(user_input)
-    puts "Created '#{user_input[1]}' containing #{@contents.size} characters"
+    puts "Created '#{@user_input[1]}' containing #{@contents.size} characters"
   end
-   
-  if File.exist?(file_path) && user_input.count == 2
-    repl_output(user_input)
+  
+  # This method checks if the file provided exists.
+  def self.file_exists?(user_input)
+    if !File.exist?("./data/#{user_input[0]}")
+      puts "Please enter a valid file located in the data directory"
+      false
+    else
+      @contents = File.open("./data/#{user_input[0]}").read
+      repl_output(user_input)
+      true
+    end
+  end
+  
+  # This conditional will execute the file_exists? mehtod if 2 arguments 
+  # were provided
+  if !invalid_num_arguments?(@user_input)
+    file_exists?(@user_input)
   end
   
 end
