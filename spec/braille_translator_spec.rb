@@ -10,7 +10,7 @@ RSpec.describe BrailleTranslator do
     end
     
     it "has a readable attribute with the english alphabet as keys and an
-    array of 3 elements with the braille translation as values }" do
+    array of 3 elements with the braille translation as values." do
       expect(braille_translator.alphabet).to be_a Hash
       expect(braille_translator.alphabet['a']).to eq(['0.', '..', '..'])
       expect(braille_translator.alphabet['z']).to eq(['0.', '.0', '00'])

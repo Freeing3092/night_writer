@@ -28,8 +28,8 @@ class NightWriter
     end
   end
   
-  # This conditional will execute the file_exists? mehtod if 2 arguments 
-  # were provided
+  # This conditional will execute the file_exists? method if exactly
+  # 2 arguments were provided
   if !invalid_num_arguments?(@user_input)
     file_exists?(@user_input)
   end
