@@ -1,4 +1,6 @@
-class NightReader
+require './lib/braille_translator'
+
+class NightReader < BrailleTranslator
   attr_reader :braille_file,
               :original_message_file,
               :contents
@@ -7,6 +9,7 @@ class NightReader
     @braille_file = user_input_array[0]
     @original_message_file = user_input_array[1]
     @contents = File.open("./data/#{user_input_array[0]}").read
+    super()
   end
   
   # This method outputs a message to the user indicating the file has been 
@@ -15,4 +18,5 @@ class NightReader
     puts "Created '#{@original_message_file}' containing #{@contents.size} characters"
     read_and_write("./data/#{@braille_file}", "./data/#{@original_message_file}")
   end
+  
 end

@@ -13,6 +13,10 @@ RSpec.describe NightReader do
       expect(night_reader.original_message_file).to eq('original_message.txt')
       expect(night_reader.contents).to eq("0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...\n")
     end
+    
+    it "is a child of BrailleTranslator" do
+      expect(NightReader.superclass).to eq(BrailleTranslator)
+    end
   end
 
   context 'behavior' do
