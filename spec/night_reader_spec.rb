@@ -25,5 +25,16 @@ RSpec.describe NightReader do
       result = ["0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...\n"]
       expect(night_reader.repl_output).to eq(result)
     end
+    
+    it "#read_and_write reads braille text from the first argument and 
+    translates the contents to english in the second argument" do
+    message = ('./data/braille2.txt')
+    destination = ('./data/original_message.txt')
+    
+    braille_translator.read_and_write(message, destination)
+    
+    result = "hello world\n"
+    expect(File.open(destination).read).to eq(result)
+    end
   end
 end
