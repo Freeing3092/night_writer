@@ -8,7 +8,7 @@ class NightReader < BrailleTranslator
   def initialize(user_input_array)
     @braille_file = user_input_array[0]
     @original_message_file = user_input_array[1]
-    @contents = File.open("./data/#{user_input_array[0]}").read
+    @contents = File.open("./data/#{user_input_array[0]}").read.split("\n")
     super()
   end
   
@@ -18,5 +18,10 @@ class NightReader < BrailleTranslator
     puts "Created '#{@original_message_file}' containing #{@contents.size} characters"
     read_and_write("./data/#{@braille_file}", "./data/#{@original_message_file}")
   end
+  
+  # def read_and_write(message, destination)
+  #   text = File.open(message).read
+  # 
+  # end
   
 end
