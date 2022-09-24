@@ -16,12 +16,18 @@ class NightReader < BrailleTranslator
   # created with the file created in the data folder.
   def repl_output
     puts "Created '#{@original_message_file}' containing #{@contents.size} characters"
-    read_and_write("./data/#{@braille_file}", "./data/#{@original_message_file}")
+    read_and_write
   end
   
-  # def read_and_write(message, destination)
-  #   text = File.open(message).read
-  # 
-  # end
+  # This method translates the braille file contents to english
+  def read_and_write
+    File.open("./data/#{@original_message_file}", 'w') do |file|
+      while @contents[0].size > 0 do
+        braille_char = @contents.map { |row| row[0..1] }
+        file.write(@alphabet.key(braille_char))
+        @contents.map! {|row| row[2..-1]}
+      end
+    end
+  end
   
 end
