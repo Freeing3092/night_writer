@@ -1,5 +1,5 @@
 class BrailleTranslator
-  attr_reader :alphabet
+  attr_reader :alphabet, :text_array
   
   def initialize
     @alphabet = {'a' => ['0.', '..', '..'],
@@ -30,15 +30,28 @@ class BrailleTranslator
                 'z' => ['0.', '.0', '00'],
                 ' ' => ['..', '..', '..']
     }
+    @text_array =[]
   end
   
   def read_and_write(message, destination)
     text = File.open(message).read.downcase
+    format_text_to_array(text)
     File.open(destination, 'w') do |file| 
-      for index in 0..2 do
-        text.each_char { |chr| file.write(@alphabet[chr][index])}
-        file.write("\n")
+      @text_array.each do |line|
+        for index in 0..2 do
+          line.each_char { |chr| file.write(@alphabet[chr][index])}
+          file.write("\n")
+        end
       end
+    end
+  end
+  
+  def format_text_to_array(string)
+    until string.empty? do
+      string.size > 40 ? end_line = string.slice(0, 39).rindex(' ') : end_line = (string.size - 1)
+      @text_array << string[0..(end_line - 1)] if string.size > 40
+      @text_array << string[0..(end_line)] if string.size < 40
+      string.size > 40 ? string = string[(end_line)..-1] : break
     end
   end
   
