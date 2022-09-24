@@ -33,5 +33,13 @@ RSpec.describe NightReader do
     result = "hello world"
     expect(File.open(destination).read).to eq(result)
     end
+    
+    it "#read_and_write can parse multiple lines in the txt file" do
+    destination = ('./data/original_message.txt')
+    night_reader.read_and_write
+    
+    result = "hello world hello world hello world hello world "
+    expect(File.open(destination).read).to eq(result)
+    end
   end
 end
