@@ -34,8 +34,23 @@ RSpec.describe NightReader do
     expect(File.open(destination).read).to eq(result)
     end
     
+    it "#delete_translated_characters deletes the first braille character
+    from the contents attribute" do
+    night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
+    night_reader.delete_translated_characters
+    
+    result = ['0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00',
+    '.00.0..0..00.0000..0..00.00.0..0..00.0000..0..00.00.0..0..00.0000..0',
+    '..0.0.0....00.0.0.........0.0.0....00.0.0.........0.0.0....00.0.0...',
+    '..0.0.0.0.0....00.0.0.00..',
+    '..00.00.0..0..00.0000..0..',
+    '......0.0.0....00.0.0.....']
+    expect(night_reader.contents).to eq(result)
+    end
+    
     it "#read_and_write can parse multiple lines in the txt file" do
     destination = ('./data/original_message.txt')
+    night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
     night_reader.read_and_write
     
     result = "hello world hello world hello world hello world "

@@ -22,10 +22,23 @@ class NightReader < BrailleTranslator
   # This method translates the braille file contents to english
   def read_and_write
     File.open("./data/#{@original_message_file}", 'w') do |file|
-      while @contents[0].size > 0 do
-        braille_char = @contents.map { |row| row[0..1] }
+      loop do
+        braille_char = @contents[0..2].map { |row| row[0..1] }
         file.write(@alphabet.key(braille_char))
-        @contents.map! {|row| row[2..-1]}
+        delete_translated_characters
+        @contents = @contents.drop(3) if @contents[0].empty?
+        break if @contents.empty?
+      end
+    end
+  end
+  
+  # This method deletes the first braille character from the contents attribute
+  def delete_translated_characters
+    @contents = @contents.each_with_index.map do |row, index|
+      if index < 3
+        row = row[2..-1] if index < 3
+      else
+        row = row
       end
     end
   end
