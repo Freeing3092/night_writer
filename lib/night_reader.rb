@@ -43,4 +43,21 @@ class NightReader < BrailleTranslator
     end
   end
   
+  # This method will wrap text in the output file if it is longer than 80 
+  # english characters
+  def wrap_english_output
+    unformatted_text = File.open("./data/#{@original_message_file}", 'r').read
+    new_line_count = (unformatted_text.size / 80.0).floor
+    index = 0
+    new_line_count.times do
+      new_line_index = unformatted_text[0..(index + 79)].rindex(' ')
+      unformatted_text.slice!(new_line_index)
+      unformatted_text = unformatted_text.insert(new_line_index, "\n")
+      index += 80
+    end
+    File.open("./data/#{@original_message_file}", 'w') {|file| file.write(unformatted_text)}
+  end
+  
 end
+
+
