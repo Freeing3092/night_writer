@@ -22,7 +22,7 @@ RSpec.describe NightReader do
   context 'behavior' do
     it "#repl_output outputs a terminal message indicating the original
     message file name and the number of characters" do
-      expect(night_reader.repl_output).to eq(nil)
+      expect(night_reader.repl_output).to eq(11)
     end
     
     it "#read_and_write reads braille text from the first argument and 
