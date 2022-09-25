@@ -56,5 +56,34 @@ RSpec.describe NightReader do
     result = "hello world hello world hello world hello world "
     expect(File.open(destination).read).to eq(result)
     end
+    
+    it "#wrap_english_output will wrap text in the output file if it is longer
+    than 80 english characters" do
+      destination = ('./data/original_message.txt')
+      night_reader = NightReader.new(['long_braille.txt', 'original_message.txt'])
+      night_reader.read_and_write
+      night_reader.wrap_english
+      
+      result = ['revolution is an art that i pursue rather than a goal i expect to achieve. nor',
+      'is this a source of dismay; a lost cause can be as spiritually satisfying as a',
+      'victory']
+      expect(File.open(destination).read.split("\n")).to eq(result)
+    end
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
