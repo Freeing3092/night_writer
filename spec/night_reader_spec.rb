@@ -27,34 +27,34 @@ RSpec.describe NightReader do
     
     it "#translate_braille_to_english reads braille text from the first argument and 
     translates the contents to english in the second argument" do
-    destination = ('./data/original_message.txt')
-    night_reader.translate_braille_to_english
-    
-    result = "hello world"
-    expect(File.open(destination).read).to eq(result)
+      destination = ('./data/original_message.txt')
+      night_reader.translate_braille_to_english
+      
+      result = "hello world"
+      expect(File.open(destination).read).to eq(result)
     end
     
     it "#delete_translated_characters deletes the first braille character
     from the contents attribute" do
-    night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
-    night_reader.delete_translated_characters
-    
-    result = ['0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00',
-    '.00.0..0..00.0000..0..00.00.0..0..00.0000..0..00.00.0..0..00.0000..0',
-    '..0.0.0....00.0.0.........0.0.0....00.0.0.........0.0.0....00.0.0...',
-    '..0.0.0.0.0....00.0.0.00..',
-    '..00.00.0..0..00.0000..0..',
-    '......0.0.0....00.0.0.....']
-    expect(night_reader.contents).to eq(result)
+      night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
+      night_reader.delete_translated_characters
+      
+      result = ['0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00',
+      '.00.0..0..00.0000..0..00.00.0..0..00.0000..0..00.00.0..0..00.0000..0',
+      '..0.0.0....00.0.0.........0.0.0....00.0.0.........0.0.0....00.0.0...',
+      '0.0.0.0.0....00.0.0.00',
+      '00.00.0..0..00.0000..0',
+      '....0.0.0....00.0.0...']
+      expect(night_reader.contents).to eq(result)
     end
     
     it "#translate_braille_to_english can parse multiple lines in the txt file" do
-    destination = ('./data/original_message.txt')
-    night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
-    night_reader.translate_braille_to_english
-    
-    result = "hello world hello world hello world hello world "
-    expect(File.open(destination).read).to eq(result)
+      destination = ('./data/original_message.txt')
+      night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
+      night_reader.translate_braille_to_english
+      
+      result = "hello world hello world hello worldhello world"
+      expect(File.open(destination).read).to eq(result)
     end
     
     it "#wrap_english_output will wrap text in the output file if it is longer

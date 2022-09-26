@@ -40,7 +40,7 @@ class NightWriter < BrailleTranslator
       text_array << string[0..(end_line)] if string.size < 40
       string.size > 40 ? string = string[(end_line)..-1] : break
     end
-    text_array 
+    text_array.map { |line| line.strip }
   end
   
 end

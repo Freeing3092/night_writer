@@ -16,7 +16,8 @@ RSpec.describe NightWriter do
   end 
   
   context 'behavior' do
-    it "#repl_output " do
+    it "#repl_output outputs a terminal message indicating the braille file
+    created and the character count of the original message" do
       expect(night_writer.repl_output).to eq(['hello world'])
     end
     
@@ -29,9 +30,11 @@ RSpec.describe NightWriter do
       expect(File.open(destination).read).to eq(result)
     end
     
-    it "format_text_to_array" do
+    it "format_text_to_array takes a string as an argument and sorts into
+    arrays no longer than 40 characters, with leading and trailing whitespace
+    removed" do
       string = "Hello World Hello World Hello World Hello World "
-      expect(night_writer.format_text_to_array(string)).to eq(["Hello World Hello World Hello World", " Hello World "])
+      expect(night_writer.format_text_to_array(string)).to eq(["Hello World Hello World Hello World", "Hello World"])
     end
     
     it "translate_braille_to_english wraps text longer than 40 braille characters or
@@ -40,8 +43,14 @@ RSpec.describe NightWriter do
       destination = ('./data/braille.txt')
       night_writer = NightWriter.new(['long_message.txt', 'braille.txt'])
       night_writer.translate_braille_to_english
+      line_1 = "0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00\n"
+      line_2 = "00.00.0..0..00.0000..0..00.00.0..0..00.0000..0..00.00.0..0..00.0000..0\n"
+      line_3 = "....0.0.0....00.0.0.........0.0.0....00.0.0.........0.0.0....00.0.0...\n"
+      line_4 = "0.0.0.0.0....00.0.0.00\n"
+      line_5 = "00.00.0..0..00.0000..0\n"
+      line_6 = "....0.0.0....00.0.0...\n"
+      result = line_1.concat(line_2, line_3, line_4, line_5, line_6)
       
-      result = "0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0..00.00.0..0..00.0000..0..00.00.0..0..00.0000..0\n....0.0.0....00.0.0.........0.0.0....00.0.0.........0.0.0....00.0.0...\n..0.0.0.0.0....00.0.0.00..\n..00.00.0..0..00.0000..0..\n......0.0.0....00.0.0.....\n"
       expect(File.open(destination).read).to eq(result)
     end
     
