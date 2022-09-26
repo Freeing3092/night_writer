@@ -14,6 +14,8 @@ RSpec.describe BrailleTranslator do
       expect(braille_translator.alphabet['a']).to eq(['0.', '..', '..'])
       expect(braille_translator.alphabet['z']).to eq(['0.', '.0', '00'])
       expect(braille_translator.alphabet[' ']).to eq(['..', '..', '..'])
+      expect(braille_translator.alphabet[';']).to eq(['..', '0.', '0.'])
+      expect(braille_translator.alphabet['.']).to eq(['..', '00', '.0'])
     end
     
     it "has a readable attribute for an empty array" do
