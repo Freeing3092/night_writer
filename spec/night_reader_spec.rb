@@ -25,10 +25,10 @@ RSpec.describe NightReader do
       expect(night_reader.repl_output).to eq(11)
     end
     
-    it "#read_and_write reads braille text from the first argument and 
+    it "#translate_braille_to_english reads braille text from the first argument and 
     translates the contents to english in the second argument" do
     destination = ('./data/original_message.txt')
-    night_reader.read_and_write
+    night_reader.translate_braille_to_english
     
     result = "hello world"
     expect(File.open(destination).read).to eq(result)
@@ -48,10 +48,10 @@ RSpec.describe NightReader do
     expect(night_reader.contents).to eq(result)
     end
     
-    it "#read_and_write can parse multiple lines in the txt file" do
+    it "#translate_braille_to_english can parse multiple lines in the txt file" do
     destination = ('./data/original_message.txt')
     night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
-    night_reader.read_and_write
+    night_reader.translate_braille_to_english
     
     result = "hello world hello world hello world hello world "
     expect(File.open(destination).read).to eq(result)
@@ -61,7 +61,7 @@ RSpec.describe NightReader do
     than 80 english characters" do
       destination = ('./data/long_original_message.txt')
       night_reader = NightReader.new(['long_braille.txt', 'long_original_message.txt'])
-      night_reader.read_and_write
+      night_reader.translate_braille_to_english
       night_reader.wrap_english_output
       
       result = ['revolution is an art that i pursue rather than a goal i expect to achieve. nor',
@@ -69,21 +69,15 @@ RSpec.describe NightReader do
       'victory.']
       expect(File.open(destination).read.split("\n")).to eq(result)
     end
+    
+    it "insert_new_lines inserts new lines at the index position of the first
+    whitespace preceding the 79 index position of each line" do
+      unformatted_text = File.open("./data/long_original_message.txt", 'r').read.split("\n").join(' ')
+      new_line_count = unformatted_text.size / 80
+      index = 0
+      
+      result = "revolution is an art that i pursue rather than a goal i expect to achieve. nor\nis this a source of dismay; a lost cause can be as spiritually satisfying as a\nvictory."
+      expect(night_reader.insert_new_lines(unformatted_text, new_line_count, index)).to eq(result)
+    end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
