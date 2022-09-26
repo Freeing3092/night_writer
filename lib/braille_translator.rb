@@ -1,5 +1,5 @@
 class BrailleTranslator
-  attr_reader :alphabet, :text_array
+  attr_reader :alphabet
   
   def initialize
     @alphabet = {'a' => ['0.', '..', '..'],
@@ -33,6 +33,5 @@ class BrailleTranslator
                 ';' => ['..', '0.', '0.']
     }
   end
-  
   
 end
