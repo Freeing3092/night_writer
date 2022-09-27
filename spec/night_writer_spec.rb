@@ -33,16 +33,17 @@ RSpec.describe NightWriter do
       expect(night_writer.repl_output).to eq(result)
     end
     
-    it "translate_english_to_braille reads input from one file and writes it to another." do
+    xit "translate_english_to_braille reads input from one file and writes it to another." do
       destination = ('./data/braille.txt')
       
       night_writer.translate_english_to_braille
       
-      result = "0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...\n"
+      result = "..0.0.0.0.0......00.0.0.00\n..00.00.0..0....00.0000..0\n.0....0.0.0....0.00.0.0...\n"
+      # result = "0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...\n"
       expect(File.open(destination).read).to eq(result)
     end
     
-    it "format_text_to_array takes a string as an argument and sorts into
+    xit "format_text_to_array takes a string as an argument and sorts into
     arrays no longer than 40 characters, with leading and trailing whitespace
     removed" do
       string = "Hello World Hello World Hello World Hello World "
@@ -56,16 +57,33 @@ RSpec.describe NightWriter do
       destination = ('./data/braille.txt')
       night_writer = NightWriter.new(['long_message.txt', 'braille.txt'])
       night_writer.translate_english_to_braille
-      line_1 = "0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00\n"
-      line_2 = "00.00.0..0..00.0000..0..00.00.0..0..00.0000..0..00.00.0..0..00.0000..0\n"
-      line_3 = "....0.0.0....00.0.0.........0.0.0....00.0.0.........0.0.0....00.0.0...\n"
-      line_4 = "0.0.0.0.0....00.0.0.00\n"
-      line_5 = "00.00.0..0..00.0000..0\n"
-      line_6 = "....0.0.0....00.0.0...\n"
+      # require "pry"; binding.pry
+      line_1 = "..0.0.0.0.0......00.0.0.00....0.0.0.0.0......00.0.0.00..0.0.0.0.0......00.0.0.00\n"
+      line_2 = "..00.00.0..0....00.0000..0....00.00.0..0....00.0000..0..00.00.0..0....00.0000..0\n"
+      line_3 = ".0....0.0.0....0.00.0.0......0....0.0.0....0.00.0.0....0....0.0.0....0.00.0.0...\n"
+      line_4 = "..0.0.0.0.0......00.0.0.00....0.0.0.0.0......00.0.0.00..\n"
+      line_5 = "..00.00.0..0....00.0000..0....00.00.0..0....00.0000..0..\n"
+      line_6 = ".0....0.0.0....0.00.0.0......0....0.0.0....0.00.0.0.....\n"
       result = line_1.concat(line_2, line_3, line_4, line_5, line_6)
-      
+      # require "pry"; binding.pry
       expect(File.open(destination).read).to eq(result)
     end
+    # 
+    # it "translate_english_to_braille wraps text longer than 40 braille characters or
+    # 80 regular characters." do
+    #   destination = ('./data/braille.txt')
+    #   night_writer = NightWriter.new(['long_message.txt', 'braille.txt'])
+    #   night_writer.translate_english_to_braille
+    #   line_1 = "0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00\n"
+    #   line_2 = "00.00.0..0..00.0000..0..00.00.0..0..00.0000..0..00.00.0..0..00.0000..0\n"
+    #   line_3 = "....0.0.0....00.0.0.........0.0.0....00.0.0.........0.0.0....00.0.0...\n"
+    #   line_4 = "0.0.0.0.0....00.0.0.00\n"
+    #   line_5 = "00.00.0..0..00.0000..0\n"
+    #   line_6 = "....0.0.0....00.0.0...\n"
+    #   result = line_1.concat(line_2, line_3, line_4, line_5, line_6)
+    # 
+    #   expect(File.open(destination).read).to eq(result)
+    # end
     
     it "line_translation translates a line passed as an argument character 
     by character from English to Braille." do
