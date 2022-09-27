@@ -16,7 +16,6 @@ class NightReader < BrailleTranslator
   def self.start
     user_input = ARGV
     if validate_input.nil? 
-      # require "pry"; binding.pry
       night_reader = NightReader.new(user_input)
       night_reader.repl_output
     end
