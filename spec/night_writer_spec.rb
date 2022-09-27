@@ -15,7 +15,7 @@ RSpec.describe NightWriter do
     end
     
     it "is a child of BrailleTranslator" do
-      expect(NightReader.superclass).to eq(BrailleTranslator)
+      expect(NightWriter.superclass).to eq(BrailleTranslator)
     end
   end 
   
