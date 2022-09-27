@@ -91,7 +91,7 @@ RSpec.describe NightReader do
       night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
       night_reader.translate_braille_to_english
       
-      result = "hello world hello world hello worldhello world"
+      result = "hello world hello world hello world hello world"
       expect(File.open(destination).read).to eq(result)
     end
     

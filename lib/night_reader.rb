@@ -46,6 +46,9 @@ class NightReader < BrailleTranslator
   def translate_braille_to_english
     File.open("./data/#{@original_message_file}", 'w') do |file|
       while !@contents.empty?
+        if !@contents[3].nil?
+          file.write(@alphabet.key(['..', '..', '..'])) if @contents[0].empty? && @contents[3][0] != '..'
+        end
         @contents = @contents.drop(3) if @contents[0].empty?
         braille_character = @contents[0..2].map { |row| row[0..1] }
         file.write(@alphabet.key(braille_character))
