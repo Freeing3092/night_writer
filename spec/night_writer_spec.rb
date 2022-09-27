@@ -13,18 +13,30 @@ RSpec.describe NightWriter do
       expect(night_writer.message).to eq('message.txt')
       expect(night_writer.destination).to eq('braille.txt')
     end
+    
+    it "is a child of BrailleTranslator" do
+      expect(NightReader.superclass).to eq(BrailleTranslator)
+    end
   end 
   
   context 'behavior' do
-    it "#repl_output outputs a terminal message indicating the braille file
-    created and the character count of the original message" do
-      expect(night_writer.repl_output).to eq(['hello world'])
+    
+    it "#repl_output returns 'nil' after the message is printed to the
+    terminal" do
+      expect(night_writer.repl_output).to eq(nil)
     end
     
-    it "translate_braille_to_english reads input from one file and writes it to another." do
+    it "#repl_output outputs a terminal message indicating the braille file
+    created and the character count of the original message" do
+      result = "Created 'original_message.txt' containing 11 characters."
+      allow(night_writer).to receive(:repl_output).and_return(result)
+      expect(night_writer.repl_output).to eq(result)
+    end
+    
+    it "translate_english_to_braille reads input from one file and writes it to another." do
       destination = ('./data/braille.txt')
       
-      night_writer.translate_braille_to_english
+      night_writer.translate_english_to_braille
       
       result = "0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...\n"
       expect(File.open(destination).read).to eq(result)
@@ -34,15 +46,16 @@ RSpec.describe NightWriter do
     arrays no longer than 40 characters, with leading and trailing whitespace
     removed" do
       string = "Hello World Hello World Hello World Hello World "
-      expect(night_writer.format_text_to_array(string)).to eq(["Hello World Hello World Hello World", "Hello World"])
+      result = ["Hello World Hello World Hello World", "Hello World"]
+      
+      expect(night_writer.format_text_to_array(string)).to eq(result)
     end
     
-    it "translate_braille_to_english wraps text longer than 40 braille characters or
+    it "translate_english_to_braille wraps text longer than 40 braille characters or
     80 regular characters." do
-      message = ('./data/long_message.txt')
       destination = ('./data/braille.txt')
       night_writer = NightWriter.new(['long_message.txt', 'braille.txt'])
-      night_writer.translate_braille_to_english
+      night_writer.translate_english_to_braille
       line_1 = "0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00..0.0.0.0.0....00.0.0.00\n"
       line_2 = "00.00.0..0..00.0000..0..00.00.0..0..00.0000..0..00.00.0..0..00.0000..0\n"
       line_3 = "....0.0.0....00.0.0.........0.0.0....00.0.0.........0.0.0....00.0.0...\n"

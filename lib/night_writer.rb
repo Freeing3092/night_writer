@@ -14,12 +14,12 @@ class NightWriter < BrailleTranslator
   # This method outputs a message to the user indicating the file has been 
   # created with the file created in the data folder.
   def repl_output
-    puts "Created '#{@destination}' containing #{@contents.size} characters"
-    translate_braille_to_english
+    translate_english_to_braille
+    puts "Created '#{@destination}' containing #{@contents.size} characters."
   end
   
   # This method translates characters in the original message to braille
-  def translate_braille_to_english
+  def translate_english_to_braille
     File.open("./data/#{@destination}", 'w') do |file| 
       @text_array.each do |line|
         for index in 0..2 do

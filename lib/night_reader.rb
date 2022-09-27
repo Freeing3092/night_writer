@@ -15,9 +15,9 @@ class NightReader < BrailleTranslator
   # This method outputs a message to the user indicating the file has been 
   # created with the file created in the data folder.
   def repl_output
-    puts "Created '#{@original_message_file}' containing #{@contents.join.size/6} characters"
     translate_braille_to_english
     wrap_english_output
+    puts "Created '#{@original_message_file}' containing #{@contents.join.size/6} characters."
   end
   
   # This method translates the braille file contents to english
