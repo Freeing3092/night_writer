@@ -21,6 +21,35 @@ RSpec.describe NightWriter do
   
   context 'behavior' do
     
+    it "#validate_input checks the user input for the correct number of arguments
+    and a valid filename" do
+      stub_const('Object::ARGV', ['message.txt', 'braille.txt', 'extra.txt'])
+      expect(NightWriter.validate_input).to eq("Please supply exactly 2 arguments")
+      
+      stub_const('Object::ARGV', ['message.txt'])
+      expect(NightWriter.validate_input).to eq("Please supply exactly 2 arguments")
+      
+      stub_const('Object::ARGV', ['messagee.txt', 'braille.txt'])
+      expect(NightWriter.validate_input).to eq("Please supply a valid file")
+      
+      stub_const('Object::ARGV', ['message.txt', 'braille.txt'])
+      expect(NightWriter.validate_input).to eq(nil)
+    end
+    
+    it "#start creates an instance of NightWriter if valid input is provided" do
+      stub_const('Object::ARGV', ['message.txt', 'braille.txt', 'extra.txt'])
+      expect(NightWriter.start).to eq(nil)
+      
+      stub_const('Object::ARGV', ['message.txt'])
+      expect(NightWriter.start).to eq(nil)
+      
+      stub_const('Object::ARGV', ['messagee.txt', 'braille.txt'])
+      expect(NightWriter.start).to eq(nil)
+      
+      stub_const('Object::ARGV', ['message.txt', 'braille.txt'])
+      expect(NightWriter.start).to eq(nil)
+    end
+    
     it "#repl_output returns 'nil' after the message is printed to the
     terminal" do
       expect(night_writer.repl_output).to eq(nil)

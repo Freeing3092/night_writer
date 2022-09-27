@@ -22,6 +22,35 @@ RSpec.describe NightReader do
 
   context 'behavior' do
     
+    it "#validate_input checks the user input for the correct number of arguments
+    and a valid filename" do
+      stub_const('Object::ARGV', ['braille.txt', 'message.txt', 'extra.txt'])
+      expect(NightReader.validate_input).to eq("Please supply exactly 2 arguments")
+      
+      stub_const('Object::ARGV', ['message.txt'])
+      expect(NightReader.validate_input).to eq("Please supply exactly 2 arguments")
+      
+      stub_const('Object::ARGV', ['braillee.txt', 'message.txt'])
+      expect(NightReader.validate_input).to eq("Please supply a valid file")
+      
+      stub_const('Object::ARGV', ['braille2.txt', 'original_message.txt'])
+      expect(NightReader.validate_input).to eq(nil)
+    end
+    
+    it "#start creates an instance of NightReader if valid input is provided" do
+      stub_const('Object::ARGV', ['braille.txt', 'message.txt', 'extra.txt'])
+      expect(NightReader.start).to eq(nil)
+      
+      stub_const('Object::ARGV', ['message.txt'])
+      expect(NightReader.start).to eq(nil)
+      
+      stub_const('Object::ARGV', ['braillee.txt', 'message.txt'])
+      expect(NightReader.start).to eq(nil)
+      
+      stub_const('Object::ARGV', ['braille2.txt', 'original_message.txt'])
+      expect(NightReader.start).to eq(nil)
+    end
+    
     it "#repl_output returns 'nil' after the message is printed to the
     terminal" do
       expect(night_reader.repl_output).to eq(nil)
@@ -62,7 +91,7 @@ RSpec.describe NightReader do
       night_reader = NightReader.new(['braille.txt', 'original_message.txt'])
       night_reader.translate_braille_to_english
       
-      result = "hello world hello world hello worldhello world"
+      result = "hello world hello world hello world hello world"
       expect(File.open(destination).read).to eq(result)
     end
     
