@@ -44,7 +44,7 @@ class NightWriter < BrailleTranslator
     File.open("./data/#{@destination}", 'w') do |file| 
       @text_array.each do |line|
         for index in 0..2 do
-          line.each_char { |chr| file.write(@alphabet[chr][index])}
+          line.each_char { |chr| file.write(@alphabet[chr][index]) if !@alphabet[chr].nil? }
           file.write("\n")
         end
       end
