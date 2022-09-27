@@ -15,7 +15,7 @@ RSpec.describe NightWriter do
     end
     
     it "is a child of BrailleTranslator" do
-      expect(NightReader.superclass).to eq(BrailleTranslator)
+      expect(NightWriter.superclass).to eq(BrailleTranslator)
     end
   end 
   
@@ -65,6 +65,29 @@ RSpec.describe NightWriter do
       result = line_1.concat(line_2, line_3, line_4, line_5, line_6)
       
       expect(File.open(destination).read).to eq(result)
+    end
+    
+    it "line_translation translates a line passed as an argument character 
+    by character from English to Braille." do
+      night_writer = NightWriter.new(['message.txt', 'braille_capitals.txt'])
+      file = File.open("./data/braille_capitals.txt", 'w+')
+      line = "Hello World"
+      
+      night_writer.line_translation(line, file)
+      file.rewind
+      
+      result = "..0.0.0.0.0......00.0.0.00\n..00.00.0..0....00.0000..0\n.0....0.0.0....0.00.0.0...\n"
+      expect(file.read).to eq(result)
+      
+    end
+    
+    it "#is_uppercase? returns boolean value for a character to indicate if
+    it is uppercase or lowercase" do
+      upper = 'H'
+      lower = 'h'
+      
+      expect(night_writer.is_uppercase?(upper)).to eq(true)
+      expect(night_writer.is_uppercase?(lower)).to eq(false)
     end
     
   end

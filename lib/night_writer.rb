@@ -22,12 +22,23 @@ class NightWriter < BrailleTranslator
   def translate_english_to_braille
     File.open("./data/#{@destination}", 'w') do |file| 
       @text_array.each do |line|
-        for index in 0..2 do
-          line.each_char { |chr| file.write(@alphabet[chr][index])}
-          file.write("\n")
-        end
+        line_translation(line, file)
       end
     end
+  end
+  
+  def line_translation(line, open_file)
+    for index in 0..2 do
+      line.each_char do |chr|
+        open_file.write(@alphabet['shift'][index]) if is_uppercase?(chr)
+        open_file.write(@alphabet[chr.downcase][index]) if !@alphabet[chr.downcase].nil?
+      end
+      open_file.write("\n")
+    end
+  end
+  
+  def is_uppercase?(character)
+    !/[[:upper:]]/.match(character).nil?
   end
   
   # This method takes a string argument and translates to an array with
